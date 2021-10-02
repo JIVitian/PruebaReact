@@ -66,13 +66,20 @@
       justify-content: center;
       align-items: center;
     }
+
+    #counter {
+      margin: 5vh auto;
+      text-align: center;
+    }
   </style>
   <body>
     <h1>Women in Tech!</h1>
     <div id="app"></div>
+    <div id="counter"></div>
 
     <script type="text/babel">
       const $app = document.getElementById("app");
+      const $counter = document.getElementById("counter");
       const useState = React.useState;
 
       // Create a React Component
@@ -96,10 +103,24 @@
             ) : (
               <i>Unable Image</i>
             )}
-            <strong>{enabled ? name : 'Disabled'}</strong>
+            <strong>{enabled ? name : "Disabled"}</strong>
           </picture>
         );
       };
+
+      // Always use PascalCase for React Components, otherwise will not rendering
+      function Counter() {
+        // To change something in the rendering, i must use UseState.
+        const [ counter, changeCounter ] = useState(50);
+
+        return (
+          <div>
+            <span>{ counter }</span>
+            <button onClick={ () => { changeCounter(counter + 1) }} >Increase</button>
+            <button onClick={ () => { changeCounter(counter - 1) }} >Decrease</button>
+          </div>
+        );
+      }
 
       // Render the HTML in #app
       ReactDOM.render(
@@ -111,6 +132,8 @@
         </div>,
         $app
       );
+
+      ReactDOM.render(<Counter />, $counter);
     </script>
   </body>
 </html>
