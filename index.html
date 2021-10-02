@@ -27,15 +27,21 @@
 
     picture {
       width: 100px;
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       text-align: center;
     }
 
     picture.is-small {
       width: 50px;
+      height: 50px;
     }
 
     picture.is-large {
       width: 150px;
+      height: 150px;
     }
 
     img {
@@ -48,6 +54,18 @@
     .disabled {
       opacity: 0.3;
     }
+
+    i {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #999999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
   <body>
     <h1>Women in Tech!</h1>
@@ -58,27 +76,27 @@
       const useState = React.useState;
 
       // Create a React Component
-      const Avatar = (props) => {
+      const Avatar = ({ id, name = "Women", size }) => {
         // Get the component's state
         const [enabled, setEnabled] = useState(true);
-        const src = `https://randomuser.me/api/portraits/women/${props.id}.jpg`;
+        const src = `https://randomuser.me/api/portraits/women/${id}.jpg`;
         const pictureClassName =
-          props.size === "small"
-            ? "is-small"
-            : props.size === "large"
-            ? "is-large"
-            : "";
+          size === "small" ? "is-small" : size === "large" ? "is-large" : "";
         const className = enabled ? "" : "disabled";
 
         // Return a piece of HTML
         return (
           <picture className={pictureClassName}>
-            <img
-              onClick={() => setEnabled(!enabled)}
-              className={className}
-              src={src}
-            />
-            <strong>{props.name}</strong>
+            {id ? (
+              <img
+                onClick={() => setEnabled(!enabled)}
+                className={className}
+                src={src}
+              />
+            ) : (
+              <i>Unable Image</i>
+            )}
+            <strong>{enabled ? name : 'Disabled'}</strong>
           </picture>
         );
       };
@@ -89,6 +107,7 @@
           <Avatar id="9" name="Juana" size="small" />
           <Avatar id="10" name="Zulma" />
           <Avatar id="11" name="Emilia" size="large" />
+          <Avatar size="large" />
         </div>,
         $app
       );
