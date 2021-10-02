@@ -19,24 +19,38 @@
   </head>
 
   <style type="text/css">
-    picture {
+    #app div {
       display: flex;
-      flex-direction: column;
-      text-align: center;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+    }
+
+    picture {
       width: 100px;
+      text-align: center;
+    }
+
+    picture.is-small {
+      width: 50px;
+    }
+
+    picture.is-large {
+      width: 150px;
     }
 
     img {
+      display: block;
       box-shadow: 0 0 15px #999999;
       border-radius: 50%;
-      width:100px;
+      width: 100%;
     }
 
     .disabled {
-      opacity: .3;
+      opacity: 0.3;
     }
   </style>
   <body>
+    <h1>Women in Tech!</h1>
     <div id="app"></div>
 
     <script type="text/babel">
@@ -45,13 +59,20 @@
 
       // Create a React Component
       const Avatar = (props) => {
+        // Get the component's state
         const [enabled, setEnabled] = useState(true);
         const src = `https://randomuser.me/api/portraits/women/${props.id}.jpg`;
+        const pictureClassName =
+          props.size === "small"
+            ? "is-small"
+            : props.size === "large"
+            ? "is-large"
+            : "";
         const className = enabled ? "" : "disabled";
 
         // Return a piece of HTML
         return (
-          <picture>
+          <picture className={pictureClassName}>
             <img
               onClick={() => setEnabled(!enabled)}
               className={className}
@@ -65,8 +86,9 @@
       // Render the HTML in #app
       ReactDOM.render(
         <div>
-          <Avatar id="9" name="Juana" />
+          <Avatar id="9" name="Juana" size="small" />
           <Avatar id="10" name="Zulma" />
+          <Avatar id="11" name="Emilia" size="large" />
         </div>,
         $app
       );
